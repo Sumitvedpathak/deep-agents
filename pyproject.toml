@@ -8,5 +8,6 @@ dependencies = [
     "datetime>=6.0",
     "deepagents>=0.7.28",
     "dotenv>=0.9.9",
+    "langchain-anthropic>=1.7.6",
     "tavily>=1.1.0",
 ]

@@ -490,6 +490,7 @@ dependencies = [
     { name = "datetime" },
     { name = "deepagents" },
     { name = "dotenv" },
+    { name = "langchain-anthropic" },
     { name = "tavily" },
 ]
 
@@ -498,6 +499,7 @@ requires-dist = [
     { name = "datetime", specifier = ">=6.0" },
     { name = "deepagents", specifier = ">=0.7.28" },
     { name = "dotenv", specifier = ">=0.9.9" },
+    { name = "langchain-anthropic", specifier = ">=1.7.6" },
     { name = "tavily", specifier = ">=1.1.0" },
 ]
 
