@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from deepagents import create_deep_agent
 from langchain_core.tools import tool
 from tavily import TavilyClient
+# from langchain_core.callbacks import BaseCallbackHandler
+
 
 load_dotenv()  # Load environment variables from .env file
 
@@ -43,9 +45,19 @@ def web_search(query: str, max_results: int = 5) -> str:
         f"[{i}] {r['title']}\nURL: {r['url']}\n{r['content']}"
         for i, r in enumerate(results, 1))
 
+# class ShowPrompt(BaseCallbackHandler):
+#     def on_chat_model_start(self, serialized, messages, **kwargs):
+#         for m in messages[0]:
+#             if m.type == "system":
+#                 blocks = m.content if isinstance(m.content, list) else [m.content]
+#                 print(f"system message: {len(blocks)} block(s)")
+#                 for i, b in enumerate(blocks):
+#                     text = b if isinstance(b, str) else b.get("text", "")
+#                     print(f"--- block {i}: {len(text)} chars ---\n{text[:300]}...")
+#                 break
 
 
-SYSTEM_PROMPT = """You are a web research assistant. Today's date is {datetime.date.today()}.
+SYSTEM_PROMPT = f"""You are a web research assistant. Today's date is {datetime.date.today()}.
 - Break the question into focused searches; run several, refining queries based on what you find.
 - Stop when two independent sources agree, or after about 6 searches.
 - Prefer official docs and recent sources.
@@ -60,6 +72,9 @@ question = "What is the current state of AI research in 2026? Please provide a s
 inputs = {"messages": [{"role": "user", "content": question}]}
 result = agent.invoke(inputs)
 print(result["messages"][-1].content)
+
+# agent.invoke(inputs, config={"callbacks": [ShowPrompt()]})
+
 
 for chunk in agent.stream(inputs, stream_mode="updates"):
         for node, update in chunk.items():
